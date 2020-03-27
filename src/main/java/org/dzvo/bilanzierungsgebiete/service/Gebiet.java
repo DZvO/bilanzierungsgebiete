@@ -1,5 +1,6 @@
 package org.dzvo.bilanzierungsgebiete.service;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.opencsv.bean.CsvBindByName;
 
 import javax.persistence.Entity;
@@ -9,6 +10,7 @@ import javax.persistence.Id;
 
 @Entity
 public class Gebiet {
+    @JsonProperty("regelzonen-eic")
     public String getRegelzonenEIC() {
         return regelzonenEIC;
     }
@@ -49,6 +51,7 @@ public class Gebiet {
         this.stromnetzbetreibernr = stromnetzbetreibernr;
     }
 
+    @JsonProperty("bilanzierungsgebiet-eic")
     public String getBilanzierungsgebietEIC() {
         return bilanzierungsgebietEIC;
     }
@@ -57,6 +60,7 @@ public class Gebiet {
         this.bilanzierungsgebietEIC = bilanzierungsgebietEIC;
     }
 
+    @JsonProperty("bilanzierungsgebiet-vnb")
     public String getVnbBilanzierungsgebiet() {
         return vnbBilanzierungsgebiet;
     }
