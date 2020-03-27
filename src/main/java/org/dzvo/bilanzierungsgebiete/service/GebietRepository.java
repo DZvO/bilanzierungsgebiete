@@ -8,5 +8,7 @@ import java.util.List;
 public interface GebietRepository extends JpaRepository<Gebiet, Long> {
     Gebiet findById(long id);
 
-    List<Gebiet> findByStromnetzbetreiber(String stromnetzbetreiberEIC);
+    List<Gebiet> findByStromnetzbetreiber(String stromnetzbetreiber);
+
+    List<Gebiet> findByBilanzierungsgebietEIC(String bilanzierungsgebietEIC);
 }
