@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+//FIXME Add javadoc/comments
 @RestController
 public class GebietController {
     private static final Logger log = LoggerFactory.getLogger(ServiceApplication.class);
@@ -16,8 +17,10 @@ public class GebietController {
         this.repo = repo;
     }
 
-
-    @RequestMapping("/gebiet")
+    //SEARCH
+    //FIXME add unit test
+    //FIXME add more parameters
+    @RequestMapping(value = "/gebiet", method = RequestMethod.GET)
     public List<Gebiet> gebietListing(
             @RequestParam(value = "stromnetzbetreiber", required = false) String stromnetzbetreiber,
             @RequestParam(value = "bilanzierungsgebiet-eic", required = false) String bilanzierungsgebietEIC
@@ -30,6 +33,25 @@ public class GebietController {
         return repo.findAll(example);
     }
 
+    //CREATE
+    //FIXME add unit test
+    //FIXME add more parameters
+    @RequestMapping(value = "/gebiet", method = RequestMethod.PUT)
+    public Boolean gebietInsert(
+            @RequestParam(value = "stromnetzbetreiber", required = false) String stromnetzbetreiber,
+            @RequestParam(value = "bilanzierungsgebiet-eic", required = false) String bilanzierungsgebietEIC
+    ) {
+        Gebiet q = new Gebiet();
+        q.setStromnetzbetreiber(stromnetzbetreiber);
+        q.setBilanzierungsgebietEIC(bilanzierungsgebietEIC);
+
+        repo.save(q);
+
+        //FIXME check for duplicates
+        return true;
+    }
+
+    //READ
     @RequestMapping(value = "/gebiet/{id}", method = RequestMethod.GET)
     public Gebiet gebietGetById(@PathVariable(value = "id") String id) {
         return repo.findById(Long.valueOf(id)).orElseThrow();
