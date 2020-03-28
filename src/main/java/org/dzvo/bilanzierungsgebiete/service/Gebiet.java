@@ -130,8 +130,7 @@ public class Gebiet {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Gebiet gebiet = (Gebiet) o;
-        return Objects.equals(id, gebiet.id) &&
-                Objects.equals(regelzonenEIC, gebiet.regelzonenEIC) &&
+        return Objects.equals(regelzonenEIC, gebiet.regelzonenEIC) &&
                 Objects.equals(stromnetzbetreiber, gebiet.stromnetzbetreiber) &&
                 Objects.equals(iln, gebiet.iln) &&
                 Objects.equals(bdew, gebiet.bdew) &&
@@ -145,13 +144,14 @@ public class Gebiet {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, regelzonenEIC, stromnetzbetreiber, iln, bdew, stromnetzbetreibernr, bilanzierungsgebietEIC, vnbBilanzierungsgebiet, beginn, ende, aenderungsdatum);
+        return Objects.hash(regelzonenEIC, stromnetzbetreiber, iln, bdew, stromnetzbetreibernr, bilanzierungsgebietEIC, vnbBilanzierungsgebiet, beginn, ende, aenderungsdatum);
     }
 
     @Override
     public String toString() {
         return String.format(
-                "Regelzonen-EIC: %s\n" +
+                "id: %d\n" +
+                        "Regelzonen-EIC: %s\n" +
                         "Stromnetzbetreiber: %s\n" +
                         "ILN: %s\n" +
                         "BDEW: %s\n" +
@@ -161,6 +161,7 @@ public class Gebiet {
                         "Beginn: %s\n" +
                         "Ende: %s\n" +
                         "Aenderungsdatum: %s\n",
+                id,
                 regelzonenEIC, stromnetzbetreiber, iln, bdew, stromnetzbetreibernr, bilanzierungsgebietEIC,
                 vnbBilanzierungsgebiet, beginn, ende, aenderungsdatum);
     }
