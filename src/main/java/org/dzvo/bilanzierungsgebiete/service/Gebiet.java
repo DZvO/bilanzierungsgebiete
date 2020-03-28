@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.Objects;
 
 @Entity
 public class Gebiet {
@@ -122,6 +123,29 @@ public class Gebiet {
     private String aenderungsdatum;
 
     public Gebiet() {
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Gebiet gebiet = (Gebiet) o;
+        return Objects.equals(id, gebiet.id) &&
+                Objects.equals(regelzonenEIC, gebiet.regelzonenEIC) &&
+                Objects.equals(stromnetzbetreiber, gebiet.stromnetzbetreiber) &&
+                Objects.equals(iln, gebiet.iln) &&
+                Objects.equals(bdew, gebiet.bdew) &&
+                Objects.equals(stromnetzbetreibernr, gebiet.stromnetzbetreibernr) &&
+                Objects.equals(bilanzierungsgebietEIC, gebiet.bilanzierungsgebietEIC) &&
+                Objects.equals(vnbBilanzierungsgebiet, gebiet.vnbBilanzierungsgebiet) &&
+                Objects.equals(beginn, gebiet.beginn) &&
+                Objects.equals(ende, gebiet.ende) &&
+                Objects.equals(aenderungsdatum, gebiet.aenderungsdatum);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, regelzonenEIC, stromnetzbetreiber, iln, bdew, stromnetzbetreibernr, bilanzierungsgebietEIC, vnbBilanzierungsgebiet, beginn, ende, aenderungsdatum);
     }
 
     @Override
