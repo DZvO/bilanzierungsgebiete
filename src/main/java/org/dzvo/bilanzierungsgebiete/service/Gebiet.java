@@ -125,6 +125,51 @@ public class Gebiet {
     public Gebiet() {
     }
 
+    public Gebiet(long id,
+                  String regelzonenEIC,
+                  String stromnetzbetreiber,
+                  String iln,
+                  String bdew,
+                  String stromnetzbetreibernr,
+                  String bilanzierungsgebietEIC,
+                  String vnbBilanzierungsgebiet,
+                  String beginn,
+                  String ende,
+                  String aenderungsdatum) {
+        if (id >= 0) this.id = id;
+        this.regelzonenEIC = regelzonenEIC;
+        this.stromnetzbetreiber = stromnetzbetreiber;
+        this.iln = iln;
+        this.bdew = bdew;
+        this.stromnetzbetreibernr = stromnetzbetreibernr;
+        this.bilanzierungsgebietEIC = bilanzierungsgebietEIC;
+        this.vnbBilanzierungsgebiet = vnbBilanzierungsgebiet;
+        this.beginn = beginn;
+        this.ende = ende;
+        this.aenderungsdatum = aenderungsdatum;
+    }
+
+    public Gebiet(String regelzonenEIC,
+                  String stromnetzbetreiber,
+                  String iln,
+                  String bdew,
+                  String stromnetzbetreibernr,
+                  String bilanzierungsgebietEIC,
+                  String vnbBilanzierungsgebiet,
+                  String beginn,
+                  String ende,
+                  String aenderungsdatum) {
+        this(-1,
+                regelzonenEIC,
+                stromnetzbetreiber,
+                iln,
+                bdew,
+                stromnetzbetreibernr,
+                bilanzierungsgebietEIC,
+                vnbBilanzierungsgebiet,
+                beginn, ende, aenderungsdatum);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

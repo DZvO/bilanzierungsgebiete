@@ -1,7 +1,5 @@
 package org.dzvo.bilanzierungsgebiete.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Example;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,57 +10,75 @@ import java.util.List;
 //FIXME improve REST level to 3
 @RestController
 public class GebietController {
-    private static final Logger log = LoggerFactory.getLogger(ServiceApplication.class);
     final GebietRepository repo;
-
     public GebietController(GebietRepository repo) {
         this.repo = repo;
     }
 
-    //SEARCH
-    //FIXME add more parameters
-
     /**
+     * SEARCH
      * Is used to search for a certain "Bilanzierungsgebiet" by supplying the corresponding parameters.
      * If none are passed will return all "Bilanzierungsgebiet" currently in database.
      *
-     * @param stromnetzbetreiber
-     * @param bilanzierungsgebietEIC
      * @return Results of search
      */
     @RequestMapping(value = "/gebiet", method = RequestMethod.GET)
     public List<Gebiet> gebietListing(
+            @RequestParam(value = "regelzonen-eic", required = false) String regelzonenEIC,
             @RequestParam(value = "stromnetzbetreiber", required = false) String stromnetzbetreiber,
-            @RequestParam(value = "bilanzierungsgebiet-eic", required = false) String bilanzierungsgebietEIC
+            @RequestParam(value = "iln", required = false) String iln,
+            @RequestParam(value = "bdew", required = false) String bdew,
+            @RequestParam(value = "stromnetzbetreibernr", required = false) String stromnetzbetreibernr,
+            @RequestParam(value = "bilanzierungsgebiet-eic", required = false) String bilanzierungsgebietEIC,
+            @RequestParam(value = "bilanzierungsgebiet-vnb", required = false) String vnbBilanzierungsgebiet,
+            @RequestParam(value = "beginn", required = false) String beginn,
+            @RequestParam(value = "ende", required = false) String ende,
+            @RequestParam(value = "aenderungsdatum", required = false) String aenderungsdatum
     ) {
-        //FIXME improve constructor to make this more readable
-        Gebiet q = new Gebiet();
-        q.setStromnetzbetreiber(stromnetzbetreiber);
-        q.setBilanzierungsgebietEIC(bilanzierungsgebietEIC);
+        Gebiet q = new Gebiet(regelzonenEIC,
+                stromnetzbetreiber,
+                iln,
+                bdew,
+                stromnetzbetreibernr,
+                bilanzierungsgebietEIC,
+                vnbBilanzierungsgebiet,
+                beginn,
+                ende,
+                aenderungsdatum);
 
         Example<Gebiet> example = Example.of(q);
         return repo.findAll(example);
     }
 
-    //CREATE
-    //FIXME add more parameters
-
     /**
+     * CREATE
      * Inserts a new entry, parameters not supplied will be set to null. Prevents duplicates from being entered.
      *
-     * @param stromnetzbetreiber
-     * @param bilanzierungsgebietEIC
      * @return The newly created entry or HTTP 409 if entry already exists
      */
     @RequestMapping(value = "/gebiet", method = RequestMethod.PUT)
     public ResponseEntity gebietInsert(
+            @RequestParam(value = "regelzonen-eic", required = false) String regelzonenEIC,
             @RequestParam(value = "stromnetzbetreiber", required = false) String stromnetzbetreiber,
-            @RequestParam(value = "bilanzierungsgebiet-eic", required = false) String bilanzierungsgebietEIC
+            @RequestParam(value = "iln", required = false) String iln,
+            @RequestParam(value = "bdew", required = false) String bdew,
+            @RequestParam(value = "stromnetzbetreibernr", required = false) String stromnetzbetreibernr,
+            @RequestParam(value = "bilanzierungsgebiet-eic", required = false) String bilanzierungsgebietEIC,
+            @RequestParam(value = "bilanzierungsgebiet-vnb", required = false) String vnbBilanzierungsgebiet,
+            @RequestParam(value = "beginn", required = false) String beginn,
+            @RequestParam(value = "ende", required = false) String ende,
+            @RequestParam(value = "aenderungsdatum", required = false) String aenderungsdatum
     ) {
-        //FIXME improve constructor to make this more readable
-        Gebiet q = new Gebiet();
-        q.setStromnetzbetreiber(stromnetzbetreiber);
-        q.setBilanzierungsgebietEIC(bilanzierungsgebietEIC);
+        Gebiet q = new Gebiet(regelzonenEIC,
+                stromnetzbetreiber,
+                iln,
+                bdew,
+                stromnetzbetreibernr,
+                bilanzierungsgebietEIC,
+                vnbBilanzierungsgebiet,
+                beginn,
+                ende,
+                aenderungsdatum);
 
         Example<Gebiet> example = Example.of(q);
         if (repo.findAll(example).size() != 0) {
@@ -73,27 +89,39 @@ public class GebietController {
         return ResponseEntity.ok(q);
     }
 
-    //UPDATE
-    //FIXME add more parameters
-
     /**
+     * UPDATE
      * Updates records values. Not supplied parameters are left as-is.
      *
-     * @param id                     The id that identifies the record to update
-     * @param stromnetzbetreiber
-     * @param bilanzierungsgebietEIC
+     * @param id The id that identifies the record to update
      * @return HTTP 200 and the new record itself if record to be updated was found, HTTP 404 if not
      */
     @RequestMapping(value = "/gebiet/{id}", method = RequestMethod.POST)
     public ResponseEntity gebietUpdateId(
             @PathVariable(value = "id") long id,
+            @RequestParam(value = "regelzonen-eic", required = false) String regelzonenEIC,
             @RequestParam(value = "stromnetzbetreiber", required = false) String stromnetzbetreiber,
-            @RequestParam(value = "bilanzierungsgebiet-eic", required = false) String bilanzierungsgebietEIC
+            @RequestParam(value = "iln", required = false) String iln,
+            @RequestParam(value = "bdew", required = false) String bdew,
+            @RequestParam(value = "stromnetzbetreibernr", required = false) String stromnetzbetreibernr,
+            @RequestParam(value = "bilanzierungsgebiet-eic", required = false) String bilanzierungsgebietEIC,
+            @RequestParam(value = "bilanzierungsgebiet-vnb", required = false) String vnbBilanzierungsgebiet,
+            @RequestParam(value = "beginn", required = false) String beginn,
+            @RequestParam(value = "ende", required = false) String ende,
+            @RequestParam(value = "aenderungsdatum", required = false) String aenderungsdatum
     ) {
         if (repo.existsById(id)) {
             Gebiet e = repo.findById(id);
+            if (regelzonenEIC != null) e.setRegelzonenEIC(regelzonenEIC);
             if (stromnetzbetreiber != null) e.setStromnetzbetreiber(stromnetzbetreiber);
+            if (iln != null) e.setIln(iln);
+            if (bdew != null) e.setBdew(bdew);
+            if (stromnetzbetreibernr != null) e.setStromnetzbetreibernr(stromnetzbetreibernr);
             if (bilanzierungsgebietEIC != null) e.setBilanzierungsgebietEIC(bilanzierungsgebietEIC);
+            if (vnbBilanzierungsgebiet != null) e.setVnbBilanzierungsgebiet(vnbBilanzierungsgebiet);
+            if (beginn != null) e.setBeginn(beginn);
+            if (ende != null) e.setEnde(ende);
+            if (aenderungsdatum != null) e.setAenderungsdatum(aenderungsdatum);
 
             repo.save(e);
             return ResponseEntity.ok(e);
@@ -101,12 +129,11 @@ public class GebietController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("");
     }
 
-    //DELETE
-
     /**
+     * DELETE
      * Delete a record by id.
      *
-     * @param id
+     * @param id ID of record to delete
      * @return HTTP 200 if record was successfully deleted, 404 if not found.
      */
     @RequestMapping(value = "/gebiet/{id}", method = RequestMethod.DELETE)
@@ -118,12 +145,11 @@ public class GebietController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("");
     }
 
-    //READ
-
     /**
+     * READ
      * Return a record by Id
      *
-     * @param id
+     * @param id ID of record to return
      * @return The specified record or HTTP 404 if not found
      */
     @RequestMapping(value = "/gebiet/{id}", method = RequestMethod.GET)
