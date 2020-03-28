@@ -89,12 +89,12 @@ public class GebietController {
      */
     @RequestMapping(value = "/gebiet/{id}", method = RequestMethod.POST)
     public ResponseEntity gebietUpdateId(
-            @PathVariable(value = "id") String id,
+            @PathVariable(value = "id") long id,
             @RequestParam(value = "stromnetzbetreiber", required = false) String stromnetzbetreiber,
             @RequestParam(value = "bilanzierungsgebiet-eic", required = false) String bilanzierungsgebietEIC
     ) {
-        if (repo.existsById(Long.valueOf(id))) {
-            Gebiet e = repo.findById(Long.valueOf(id)).get();
+        if (repo.existsById(id)) {
+            Gebiet e = repo.findById(id);
             if (stromnetzbetreiber != null) e.setStromnetzbetreiber(stromnetzbetreiber);
             if (bilanzierungsgebietEIC != null) e.setBilanzierungsgebietEIC(bilanzierungsgebietEIC);
 
@@ -114,9 +114,9 @@ public class GebietController {
      * @return HTTP 200 if record was successfully deleted, 404 if not found.
      */
     @RequestMapping(value = "/gebiet/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity gebietDeleteId(@PathVariable(value = "id") int id) {
-        if (repo.existsById((long) id)) {
-            repo.deleteById((long) id);
+    public ResponseEntity gebietDeleteId(@PathVariable(value = "id") long id) {
+        if (repo.existsById(id)) {
+            repo.deleteById(id);
             return ResponseEntity.ok("");
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("");
@@ -132,9 +132,9 @@ public class GebietController {
      * @return The specified record or HTTP 404 if not found
      */
     @RequestMapping(value = "/gebiet/{id}", method = RequestMethod.GET)
-    public ResponseEntity gebietGetById(@PathVariable(value = "id") int id) {
-        if (repo.existsById((long) id)) {
-            return ResponseEntity.ok(repo.findById(Long.valueOf(id)));
+    public ResponseEntity gebietGetById(@PathVariable(value = "id") long id) {
+        if (repo.existsById(id)) {
+            return ResponseEntity.ok(repo.findById(id));
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("");
     }
