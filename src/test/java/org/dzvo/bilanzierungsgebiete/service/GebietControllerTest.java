@@ -71,11 +71,37 @@ public class GebietControllerTest {
 
     @Test
     public void gebietUpdateId() {
+        var n = controller.gebietUpdateId(1, null, null);
+        assertThat(n.getStatusCode()).isEqualByComparingTo(HttpStatus.NOT_FOUND);
+
         var k = controller.gebietInsert("SNB", "BEIC");
         var d = controller.gebietInsert("BNS", "ASDF");
         Gebiet g = (Gebiet) k.getBody();
 
         var r = controller.gebietUpdateId(g.getId(), "BNS", "ASDF");
         assertThat(controller.gebietGetById(g.getId())).isEqualTo(d);
+    }
+
+    @Test
+    public void gebietDeleteId() {
+        var non_existing = controller.gebietDeleteId(1);
+        assertThat(non_existing.getStatusCode()).isEqualByComparingTo(HttpStatus.NOT_FOUND);
+
+        var g = controller.gebietInsert("SNB", "BEIC");
+        var k = controller.gebietDeleteId(((Gebiet) g.getBody()).getId());
+        assertThat(k.getStatusCode()).isEqualByComparingTo(HttpStatus.OK);
+
+        var search_deleted = controller.gebietGetById(((Gebiet) g.getBody()).getId());
+        assertThat(search_deleted.getStatusCode()).isEqualByComparingTo(HttpStatus.NOT_FOUND);
+    }
+
+    @Test
+    public void gebietGetById() {
+        var r = controller.gebietInsert("SNB", "BEIC");
+        var new_id = ((Gebiet) r.getBody()).getId();
+
+        var resp = controller.gebietGetById(new_id);
+        assertThat(resp.getStatusCode()).isEqualByComparingTo(HttpStatus.OK);
+        assertThat((Gebiet) resp.getBody()).isEqualTo((Gebiet) r.getBody());
     }
 }

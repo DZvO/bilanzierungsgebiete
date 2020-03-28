@@ -20,7 +20,6 @@ public class GebietController {
     }
 
     //SEARCH
-    //FIXME add unit test
     //FIXME add more parameters
 
     /**
@@ -46,7 +45,6 @@ public class GebietController {
     }
 
     //CREATE
-    //FIXME add unit test
     //FIXME add more parameters
 
     /**
@@ -76,7 +74,6 @@ public class GebietController {
     }
 
     //UPDATE
-    //FIXME add unit test
     //FIXME add more parameters
 
     /**
@@ -105,7 +102,6 @@ public class GebietController {
     }
 
     //DELETE
-    //FIXME add unit test
 
     /**
      * Delete a record by id.
@@ -123,7 +119,6 @@ public class GebietController {
     }
 
     //READ
-    //FIXME add unit test
 
     /**
      * Return a record by Id
