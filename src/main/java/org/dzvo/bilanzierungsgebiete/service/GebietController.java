@@ -50,14 +50,14 @@ public class GebietController {
     //FIXME add more parameters
 
     /**
-     * Inserts a new entry, parameters not supplied will be set to null. This method won't prevent duplicates.
+     * Inserts a new entry, parameters not supplied will be set to null. Prevents duplicates from being entered.
      *
      * @param stromnetzbetreiber
      * @param bilanzierungsgebietEIC
-     * @return The newly created entry
+     * @return The newly created entry or HTTP 409 if entry already exists
      */
     @RequestMapping(value = "/gebiet", method = RequestMethod.PUT)
-    public Gebiet gebietInsert(
+    public ResponseEntity gebietInsert(
             @RequestParam(value = "stromnetzbetreiber", required = false) String stromnetzbetreiber,
             @RequestParam(value = "bilanzierungsgebiet-eic", required = false) String bilanzierungsgebietEIC
     ) {
@@ -66,10 +66,13 @@ public class GebietController {
         q.setStromnetzbetreiber(stromnetzbetreiber);
         q.setBilanzierungsgebietEIC(bilanzierungsgebietEIC);
 
-        repo.save(q);
+        Example<Gebiet> example = Example.of(q);
+        if (repo.findAll(example).size() != 0) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Entry already exists");
+        }
 
-        //FIXME check for duplicates?
-        return q;
+        repo.save(q);
+        return ResponseEntity.ok(q);
     }
 
     //UPDATE
